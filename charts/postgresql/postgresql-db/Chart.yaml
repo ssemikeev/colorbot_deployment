@@ -2,9 +2,9 @@ annotations:
   category: Database
   images: |
     - name: os-shell
-      image: docker.io/bitnami/os-shell:11-debian-11-r91
+      image: docker.io/bitnamilegacy/os-shell:11-debian-11-r91
     - name: postgres-exporter
-      image: docker.io/bitnami/postgres-exporter:0.15.0-debian-11-r2
+      image: docker.io/bitnamilegacy/postgres-exporter:0.15.0-debian-11-r2
     - name: postgresql
       image: docker.io/bitnamilegacy/postgresql:16.1.0-debian-11-r3
   licenses: Apache-2.0
