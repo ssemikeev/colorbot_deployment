@@ -65,7 +65,7 @@ app:
     registry: ""
     repository: colorbot/colorbot
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "latest"
   resources: 
     api: {}
 
