@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "colorbot.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "colorbot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "colorbot.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ include "colorbot.image" .}}
+          env:
+            {{ include "colorbot.env" . | nindent 10 }}
+          securityContext:
+            privileged: true
+          ports:
+          - containerPort: {{ .Values.app.service.port.colorbot }}
+            name: http-colorbot
+          resources:
+            {{- toYaml .Values.app.resources.api | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http-web
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

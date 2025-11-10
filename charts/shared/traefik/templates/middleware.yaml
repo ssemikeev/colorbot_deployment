@@ -1,0 +1,19 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: cors
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+spec:
+  {{ .Values.traefik.cors | toYaml | nindent 2 }}
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-from-www
+  labels:
+    {{- include "traefik.labels" . | nindent 4 }}
+spec:
+  {{ .Values.traefik.redirectFromWww | toYaml | nindent 2 }}

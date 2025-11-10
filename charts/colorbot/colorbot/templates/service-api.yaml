@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "colorbot.fullname" . }}
+  labels:
+    {{- include "colorbot.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.app.service.type }}
+  ports:
+    - port: {{ .Values.app.service.port.colorbot }}
+      protocol: TCP
+      name: http-colorbot
+      targetPort: {{ .Values.app.service.port.colorbot }}    
+  selector:
+    {{- include "colorbot.selectorLabels" . | nindent 4 }}

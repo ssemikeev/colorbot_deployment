@@ -1,0 +1,12 @@
+### Global Values if any ###
+global:
+  imagePublicRegistry: docker.io
+  imagePrivateRegistry: docker.galament.net
+  imageBasePrivateRegistry: docker.galament.net
+
+imagePullSecrets:
+  - name: regcred
+
+
+namespace: staging
+

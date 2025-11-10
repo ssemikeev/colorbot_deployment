@@ -1,0 +1,48 @@
+middleware:
+  cors:
+    accessControlAllowOriginList:
+      - "*"
+
+service:
+  spec:
+    loadBalancerIP: 10.77.22.68
+
+traefik:
+  cors:
+    headers:
+      accessControlAllowMethods:
+        - "GET"
+        - "POST"
+        - "HEAD"
+        - "PUT"
+        - "DELETE"
+        - "PATCH"
+        - "OPTIONS"
+      accessControlAllowHeaders:
+        - "Authorization"
+        - "Origin"
+        - "Accept"
+        - "X-Requested-With"
+        - "Content-Type"
+      accessControlExposeHeaders:
+        - "*"
+      accessControlAllowOriginList:
+        - "http://localhost:3000"
+      accessControlAllowCredentials: true
+      addVaryHeader: true
+      accessControlMaxAge: 604800
+  redirectFromWww:
+    redirectRegex:
+      regex: ^(https?:\/\/)?(?:www\.)?(.+)
+      replacement: ${1}${2}
+      permanent: true
+
+providers:
+  kubernetesCRD:
+    allowExternalNameServices: true
+  kubernetesIngress:
+    allowExternalNameServices: true
+
+ports:
+  web:
+    redirectTo: websecure

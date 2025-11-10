@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: stage
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+      repoURL: https://git.galament.net/products/colorbot/deployments.git
+      revision: HEAD
+      directories:
+#        - path: charts/fastcity/fastcity-server
+#        - path: charts/shared/amqp 
+#        - path: charts/shared/traefik
+        # - path: charts/shared/*
+        # - path: charts/platform/*
+      values:
+#        backend-php: |
+#          argocd-image-updater.argoproj.io/image-list: fastcity-server=
+#          argocd-image-updater.argoproj.io/fastcity-server.helm.image-name: php.image.name
+#          argocd-image-updater.argoproj.io/fastcity-server.helm.image-tag: php.image.tag
+  templatePatch: |
+    metadata: 
+      annotations: {{ index .values .path.basename | fromYaml | toYaml | nindent 4 }}
+  template:
+    metadata:
+      annotations:
+        argocd-image-updater.argoproj.io/write-back-method: 'git:secret:argocd/argocd-repo'
+        argocd-image-updater.argoproj.io/pull-secret: 'pullsecret:argocd/dockerhub-secret'
+        argocd-image-updater.argoproj.io/allow-tags: regexp:^[a-f0-9]{8}$
+        argocd-image-updater.argoproj.io/git-branch: main
+        argocd-image-updater.argoproj.io/write-back-target: 'helmvalues:../../../environments/ru/stage/{{.path.path}}/values.yaml'
+        argocd-image-updater.argoproj.io/update-strategy: newest-build
+      name: '{{.path.basename}}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      path: charts/argocd
+      source:
+        namespace: staging
+        repoURL: https://git.galament.net/products/colorbot/deployments.git
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+        helm:
+          valueFiles:
+            - environments/ru/stage/values.yaml
+            - environments/ru/stage/{{.path.path}}/values.yaml
+          ignoreMissingValueFiles: true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: staging
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
+          allowEmpty: true
+        syncOptions:
+          - Validate=true
+          - CreateNamespace=true
+          - PrunePropagationPolicy=foreground
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+      - group: "*"
+        namespace: staging
+        kind: Secret
+        jsonPointers:
+          - /data
+          - /stringData

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+data:
+  trigger.on-deployed: |
+    - description: Application is synced and healthy. Triggered once per commit.
+      oncePer: app.status.sync.revision
+      send:
+      - gitlab-deployment-status
+      when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+  template.gitlab-deployment-status: |
+    webhook:
+      gitlab:
+        method: POST
+        path: /projects/2/deployments
+        body: |
+          {
+            "status": "success",
+            "environment": "production",
+            "sha": "{{.app.status.operationState.operation.sync.revision}}",
+            "ref": "main",
+            "tag": "false"
+          }
+  service.webhook.gitlab: |
+    url: https://git.galament.net/products/colorbot/deployments.git/api/v4
+    headers:
+    - name: PRIVATE-TOKEN
+      value: $gitlab-token
+    - name: Content-type
+      value: application/json

@@ -1,0 +1,12 @@
+app:
+  image:
+    name: docker.galament.net/colorbot/staging
+    tag: "e96dfa44"
+  resources:
+    api:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "3"
+        memory: "2Gi"
