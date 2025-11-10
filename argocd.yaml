@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://git.galament.net/products/colorbot/deployments.git
+    repoURL: https://github.com/ssemikeev/colorbot_deployment.git
     path: charts/argocd
   destination:
     namespace: argocd

@@ -23,7 +23,7 @@ data:
             "tag": "false"
           }
   service.webhook.gitlab: |
-    url: https://git.galament.net/products/colorbot/deployments.git/api/v4
+    url: https://github.com/ssemikeev/colorbot_deployment.git/api/v4
     headers:
     - name: PRIVATE-TOKEN
       value: $gitlab-token

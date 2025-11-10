@@ -7,7 +7,7 @@ spec:
   goTemplate: true
   generators:
     - git:
-      repoURL: https://git.galament.net/products/colorbot/deployments.git
+      repoURL: https://github.com/ssemikeev/colorbot_deployment.git
       revision: HEAD
       directories:
 #        - path: charts/fastcity/fastcity-server
@@ -41,7 +41,7 @@ spec:
       path: charts/argocd
       source:
         namespace: staging
-        repoURL: https://git.galament.net/products/colorbot/deployments.git
+        repoURL: https://github.com/ssemikeev/colorbot_deployment.git
         targetRevision: HEAD
         path: '{{.path.path}}'
         helm:
