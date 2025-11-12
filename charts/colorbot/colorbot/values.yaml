@@ -66,7 +66,7 @@ app:
     repository: colorbot/colorbot
     pullPolicy: IfNotPresent
     name: docker.galament.net/colorbot/colorbot
-    tag: cd26b36
+    tag: e876a51c
   resources: 
     api: {}
 
