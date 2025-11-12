@@ -17,7 +17,7 @@ spec:
 #          - path: charts/platform/*
         values:
           colorbot: |  
-            argocd-image-updater.argoproj.io/image-list: colorbot=docker.galament.net/colorbot/
+            argocd-image-updater.argoproj.io/image-list: colorbot=docker.galament.net/colorbot
             argocd-image-updater.argoproj.io/colorbot.helm.image-name: app.image.name            
             argocd-image-updater.argoproj.io/colorbot.helm.image-tag: app.image.tag
   templatePatch: |
