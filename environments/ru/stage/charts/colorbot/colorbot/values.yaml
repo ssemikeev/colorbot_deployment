@@ -1,7 +1,7 @@
 app:
   image:
     name: docker.galament.net/colorbot/colorbot
-    tag: "1.0.2"
+    tag: cd26b36
   resources:
     api:
       requests:
