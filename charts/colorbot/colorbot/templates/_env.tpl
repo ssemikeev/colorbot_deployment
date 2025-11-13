@@ -29,4 +29,22 @@
       name: colorbot-secret
       key: default_lang
       optional: false
+- name: LOG_LEVEL
+  valueFrom:
+    secretKeyRef:
+      name: colorbot-secret
+      key: log_level
+      optional: false
+- name: LOG_FORMAT
+  valueFrom:
+    secretKeyRef:
+      name: colorbot-secret
+      key: log_format
+      optional: false
+- name: DEBUG
+  valueFrom:
+    secretKeyRef:
+      name: colorbot-secret
+      key: debug
+      optional: false
 {{- end }}
